@@ -1,0 +1,14 @@
+<ion-view title="Game2" ng-controller="GameController as game2_ctrl">
+  <header class="bar bar-header bar-positive">
+    <h1 class="title">Game2</h1>
+  </header>
+
+  <ion-content class="has-header padding">
+    <div class="card" ng-repeat="nota in notas track by $index">
+      <div class="item item-text-wrap text-center">
+        <strong>{{nota}}</strong>
+      </div>
+    </div>
+  </ion-content>
+
+</ion-view>

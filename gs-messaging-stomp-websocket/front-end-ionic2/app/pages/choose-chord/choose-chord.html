@@ -1,0 +1,25 @@
+<ion-navbar *navbar>
+  <ion-title>
+    O que vamos treinar hoje?
+  </ion-title>
+</ion-navbar>
+
+<ion-content class="choose-game">
+  <ion-list radio-group>
+    <ion-item>
+      <ion-label>Sol (mão direita)</ion-label>
+      <ion-radio checked="{{sol}}"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Fá (mão esquerda)</ion-label>
+      <ion-radio checked="{{fa}}"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ambas (mão direita e esquerda)</ion-label>
+      <ion-radio checked="{{solfa}}"></ion-radio>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <button block (click)="goToGame()">Próximo</button>
+  </div>
+</ion-content>
