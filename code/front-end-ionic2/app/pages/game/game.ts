@@ -1,7 +1,7 @@
 /// <reference path="../../../node_modules/retyped-sockjs-client-tsd-ambient/sockjs-client.d.ts" />
 /// <reference path="../../../typings/modules/stomp-websocket/stomp-websocket.d.ts" />
 import {Page, NavController, NavParams, Alert} from 'ionic-angular';
-import {NoteService, Note, NoteHtml, ClaveFa, ClaveSol} from '../../providers/note-service/note-service';
+import {NoteService, Note, NoteHtml, ClaveFa, ClaveSol, NoteLevel} from '../../providers/note-service/note-service';
 import {MidiInputService, HandleMidiInputListerner} from '../../providers/midiinput-service/midiinput-service';
 import {ResultPage} from '../result/result';
 import {Observable} from 'rxjs/Rx'
@@ -27,16 +27,16 @@ export class GamePage implements HandleMidiInputListerner {
   public incremento:number = 0;
   public updateProgressBySecond:number = 5;
   public intervalValue:number = 1000 / this.updateProgressBySecond;
-  public secondsToResponse:number = 3; //TODO: personalizar via localstorange
+  public secondsToResponse:number = 5; //TODO: personalizar via localstorange
   
-  private timer;  
-  private countTotalNotes:number = 0;
+  private timer;
   private lastNote:Note;
-  private sol:boolean;
-  private fa:boolean;
+  private level:NoteLevel;
   
-  private maxChallenges:number = 1;
+  private maxChallenges:number = 3;
   private counterChallenges:number = 0;
+  
+  private randomNotes:Note[] = [];
   
   
   constructor(private nav: NavController, 
@@ -44,37 +44,42 @@ export class GamePage implements HandleMidiInputListerner {
               private navParams: NavParams,
               public midiInput: MidiInputService) {
                 
-    this.sol = navParams.get('sol');
-    this.fa = navParams.get('fa');            
+    //TODO: BUG? no construtor vai iniciar só uma vez? Parece que não.
+    this.level = navParams.get('level');
     
     this.dummyNotas();
     
     //TODO: cuidado deve ficar em um 
-    if (this.sol) {
-      this.countTotalNotes += ClaveSol.ALL.length;
+    if (this.level.sol) {
+      this.randomNotes = this.randomNotes.concat(ClaveSol.ALL_BASIC_NOTES);
+      if (this.level.semiNote) {
+        this.randomNotes = this.randomNotes.concat(ClaveSol.ALL_BASIC_SEMI_NOTES);
+      }
     }
-    if (this.fa) {
-      this.countTotalNotes += ClaveFa.ALL.length;
+    if (this.level.fa) {
+      this.randomNotes = this.randomNotes.concat(ClaveFa.ALL_BASIC_NOTES);
+      if (this.level.semiNote) {
+        this.randomNotes = this.randomNotes.concat(ClaveFa.ALL_BASIC_SEMI_NOTES);
+      }
+    }    
+    
+    if (this.randomNotes.length <= 1 ) {
+      throw new Error("Error: this.randomNotes.length <= 0!");
     }
-    if (this.countTotalNotes == 0) {
-      throw new Error("Sol e Fa = FALSE!");
-    }
+    
     midiInput.setHandleMidiInputListerner(this);
   }
   
   onConnection() {}
   
+  /**
+   * Útil para renderizar notas
+   */
   dummyNotas() {
-    /*this.notes.push(ClaveSol.C);
-    this.notes.push(ClaveSol.D);
-    this.notes.push(ClaveSol.E);
-    this.notes.push(ClaveSol.F);
-    this.notes.push(ClaveSol.G);
-    this.notes.push(ClaveFa.C);
-    this.notes.push(ClaveFa.B);
-    this.notes.push(ClaveFa.A);
-    this.notes.push(ClaveFa.G);
-    this.notes.push(ClaveFa.F);*/
+    /*this.gameNotes.push(ClaveSol.CSharp);
+    this.gameNotes.push(ClaveSol.DSharp);
+    this.gameNotes.push(ClaveSol.FSharp);
+    this.gameNotes.push(ClaveSol.GSharp);*/
   }
   
   getNextNote() {
@@ -87,26 +92,18 @@ export class GamePage implements HandleMidiInputListerner {
   }
   
   getPreviewNextNote() {
-    var index = Math.floor(Math.random() * this.countTotalNotes);
-    if (this.sol && this.fa) {
-      return NoteService.ALL_SOL_FA[index];
-    } else if (this.sol) {
-      return ClaveSol.ALL[index];
-    } else if (this.fa) {
-      return ClaveFa.ALL[index];
-    }
+    var index = Math.floor(Math.random() * this.randomNotes.length);
+    return this.randomNotes[index];
   }
   
   handleMidiInput(rawMidiInput:string):void {
     //TODO: verificar se o game está em execução!
     var midiinput = this.noteService.getNoteFromRawMidi(rawMidiInput);
-    var note = midiinput[0]
+    var note = midiinput[0];
     var keyOn = midiinput[1];
     if (keyOn) {
       if (note.info != null) {
         this.computeNewScore(note);
-      }else{
-        //TODO: informar q não processa aquele tipo de nota
       }
     }
   }

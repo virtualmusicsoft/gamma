@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.gmnt</groupId>
-	<artifactId>gmnt-server</artifactId>
+	<artifactId>server-midi</artifactId>
 	<version>0.1.0</version>
 
 	<parent>
@@ -32,6 +32,13 @@
 
 	<build>
 		<plugins>
+			<!-- <plugin> -->
+			<!-- <groupId>org.apache.maven.plugins</groupId> -->
+			<!-- <artifactId>maven-jar-plugin</artifactId> -->
+			<!-- <configuration> -->
+			<!-- <finalName>${project.artifactId}</finalName> -->
+			<!-- </configuration> -->
+			<!-- </plugin> -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -61,12 +68,84 @@
 								<resource>
 									<directory>.</directory>
 									<filtering>true</filtering>
-									<include>startServer.bat</include>
+									<includes>
+										<include>startServer.bat</include>
+										<include>Splash.png</include>
+										<include>gamma.l4j.ini</include>
+									</includes>
 								</resource>
 							</resources>
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			
+			<!-- launch4j -->
+			<plugin>
+				<groupId>com.akathist.maven.plugins.launch4j</groupId>
+				<artifactId>launch4j-maven-plugin</artifactId>
+				<version>1.7.10</version>
+				<executions>
+					<execution>
+						<id>l4j-clui</id>
+						<phase>package</phase>
+						<goals>
+							<goal>launch4j</goal>
+						</goals>
+						<configuration>
+							<headerType>gui</headerType>
+							<dontWrapJar>true</dontWrapJar>
+							<jar>${project.artifactId}-${project.version}.jar</jar>
+							<outfile>${project.build.directory}/gamma.exe</outfile>
+							<downloadUrl>http://java.com/download</downloadUrl>
+<!-- 							<cmdLine>.\jre1.8.0_45_32bits\bin\java.exe -splash:Splash.png -jar ${project.artifactId}-${project-version}.jar</cmdLine> -->
+							<!--<classPath> <mainClass>hello.Application</mainClass> <preCp>anything</preCp> 
+								</classPath> -->
+							<!-- TODO: criar ícone -->
+							<!-- <icon>application.ico</icon> -->
+							<jre>
+								<path>.\jre1.8.0_45_32bits\</path>
+								<minVersion>1.8.0</minVersion>
+								<jdkPreference>preferJre</jdkPreference>
+							</jre>
+							<versionInfo>
+								<fileVersion>1.0.0.0</fileVersion>
+								<txtFileVersion>${project.version}</txtFileVersion>
+								<fileDescription>${project.name}</fileDescription>
+								<copyright>2016 gamma</copyright>
+								<productVersion>1.0.0.0</productVersion>
+								<txtProductVersion>1.0.0.0</txtProductVersion>
+								<productName>${project.name}</productName>
+								<companyName>gamma</companyName>
+								<internalName>gamma</internalName>
+								<originalFilename>gamma.exe</originalFilename>
+							</versionInfo>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- zip -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
+				</executions>
+				<configuration>
+					<tarLongFileMode>gnu</tarLongFileMode>
+					<descriptors>
+						<descriptor>assembly.xml</descriptor>
+					</descriptors>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

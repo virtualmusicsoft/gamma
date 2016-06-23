@@ -19,7 +19,8 @@ export class ConnectMidiInputPage implements ConnectionListerner {
   }
   
   onConnection() {
-    this.goToChooseChordGame();
+    //this.goToChooseChordGame();
+    this. goToChooseGame();
   }
   
   onClose() {}

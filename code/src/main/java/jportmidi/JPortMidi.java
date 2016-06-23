@@ -230,7 +230,9 @@ public class JPortMidi {
     // the need for clients to ever deal directly with a stream object
     public void closeInput() throws JPortMidiException {
         if (input == null) return; // no effect if input not open
-        checkError(pm.Pm_Close(input));
+        //A linha a abaixo foi comentada pois estava causando erro ao tentar fechar um input que já havia sido desconectado.
+        //checkError(pm.Pm_Close(input));
+        pm.Pm_Close(input);
         input = null;
         openCount--;
     }

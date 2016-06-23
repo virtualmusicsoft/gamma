@@ -39,8 +39,8 @@ export class RecordsService {
         });
   }*/
   
-  tryAddNewRecord(score, game_label, params?: any) {
     
+  tryAddNewRecord(score, game_label, params?: any) {
     this.storage
         .get(game_label)
         .then((data) => {
@@ -58,11 +58,12 @@ export class RecordsService {
                 isRecord = false;
               }
               sortedArray = sortedArray.slice(0, sortedArray.length-1);
+              myData = sortedArray;
             }
           }
-          this.storage.setJson(game_label, sortedArray);
+          this.storage.setJson(game_label, myData);
           //TODO: dizer se se trata de novo record
-          params.resolve([sortedArray, isRecord]);
+          params.resolve([myData, isRecord, score]);
         });
   }
   

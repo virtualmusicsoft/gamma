@@ -5,7 +5,29 @@
 </ion-navbar>
 
 <ion-content class="choose-game">
-  <ion-list radio-group>
+  
+  <ion-card>
+    <ion-list>
+      <button ion-item (click)="goToGame('level1')">
+        <!--<ion-icon name="cart" item-left ></ion-icon>-->
+        Nível 1 - Mão direita
+      </button>
+
+      <button ion-item (click)="goToGame('level2')">
+        Nível 2 - Mão esquerda
+      </button>
+      
+      <button ion-item (click)="goToGame('level3')">
+        Nível 3 - Mão direita e esquerda
+      </button>
+      
+      <button ion-item (click)="goToGame('level4')">
+        Nível 4 - Mão direita e esquerda + semi-notas
+      </button>
+    </ion-list>
+  </ion-card>
+  
+  <!--<ion-list radio-group>
     <ion-item>
       <ion-label>Sol (mão direita)</ion-label>
       <ion-radio checked="{{sol}}"></ion-radio>
@@ -21,5 +43,5 @@
   </ion-list>
   <div padding>
     <button block (click)="goToGame()">Próximo</button>
-  </div>
+  </div>-->
 </ion-content>

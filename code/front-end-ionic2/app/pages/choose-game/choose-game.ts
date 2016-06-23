@@ -1,5 +1,6 @@
 import {Page, NavController, NavParams, Alert} from 'ionic-angular';
 import {GamePage} from '../game/game';
+import {NoteLevel} from '../../providers/note-service/note-service';
 
 @Page({
   templateUrl: 'build/pages/choose-game/choose-game.html'
@@ -8,6 +9,9 @@ export class ChooseGamePage {
   public sol:boolean = true;
   public fa:boolean = false;
   public solfa:boolean = false;
+  
+  public 
+  
   private delayShowAlertScore:boolean = false;
   private delayScore:any;
 
@@ -24,17 +28,11 @@ export class ChooseGamePage {
     this.delayShowAlertScore = false;
   }
 
-  goToGame() {
-    var params;
-    var p_sol:boolean = this.sol;
-    var p_fa:boolean = this.fa;
-    
-    if (this.solfa) {
-      p_sol, p_fa = true;
-    }
+  goToGame(levelRaw:String) {
+    var p_level:NoteLevel = NoteLevel.valueOf(levelRaw);
     
     new Promise((resolve, reject) => {
-      this.nav.push(GamePage, {resolve: resolve, sol:p_sol, fa:p_fa});
+      this.nav.push(GamePage, {resolve: resolve, level:p_level});
     }).then(score => {
       this.delayScore = score;
       this.delayShowAlertScore = true;

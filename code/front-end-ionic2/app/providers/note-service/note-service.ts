@@ -15,18 +15,27 @@ export class NoteHtml {
   
    static Clave = class {
     static Sol = class {
-      static C = new NoteHtml("img/note_up_w_line.png", NoteHtml.Default.left_upwline, "68px");
+      static C = new NoteHtml("img/note_up_w_line.png", NoteHtml.Default.left_upwline, "68px");      
       static D = new NoteHtml("img/note_up_wo_line.png", NoteHtml.Default.left_upwoline, "60px");
       static E = new NoteHtml("img/note_up_wo_line.png", NoteHtml.Default.left_upwoline, "55px");
       static F = new NoteHtml("img/note_up_wo_line.png", NoteHtml.Default.left_upwoline, "49px");
-      static G = new NoteHtml("img/note_up_wo_line.png", NoteHtml.Default.left_upwoline, "43px"); 
+      static G = new NoteHtml("img/note_up_wo_line.png", NoteHtml.Default.left_upwoline, "43px");
+      
+      static CSharp = new NoteHtml("img/note_up_w_line_sharp.png", NoteHtml.Default.left_upwline, "68px");
+      static DSharp = new NoteHtml("img/note_up_wo_line_sharp.png", NoteHtml.Default.left_upwoline, "60px");
+      static FSharp = new NoteHtml("img/note_up_wo_line_sharp.png", NoteHtml.Default.left_upwoline, "49px");
+      static GSharp = new NoteHtml("img/note_up_wo_line_sharp.png", NoteHtml.Default.left_upwoline, "43px"); 
     }
     static Fa = class {
       static C = new NoteHtml("img/note_down_w_line.png", NoteHtml.Default.left_upwline, "160px");
       static B = new NoteHtml("img/note_down_wo_line.png", NoteHtml.Default.left_upwoline, "167px");
       static A = new NoteHtml("img/note_down_wo_line.png", NoteHtml.Default.left_upwoline, "172px");
       static G = new NoteHtml("img/note_down_wo_line.png", NoteHtml.Default.left_upwoline, "178px");
-      static F = new NoteHtml("img/note_down_wo_line.png", NoteHtml.Default.left_upwoline, "184px"); 
+      static F = new NoteHtml("img/note_down_wo_line.png", NoteHtml.Default.left_upwoline, "184px");
+      
+      static BSharp = new NoteHtml("img/note_down_wo_line_sharp.png", NoteHtml.Default.left_upwoline, "167px");
+      static ASharp = new NoteHtml("img/note_down_wo_line_sharp.png", NoteHtml.Default.left_upwoline, "172px");
+      static GSharp = new NoteHtml("img/note_down_wo_line_sharp.png", NoteHtml.Default.left_upwoline, "178px");
     }
   }
 }
@@ -37,7 +46,6 @@ export class BasicNote {
       
     }
     
-    //TODO: Fazer com as notas #
     static C = new BasicNote("C");
     static D = new BasicNote("D");
     static E = new BasicNote("E");
@@ -45,7 +53,16 @@ export class BasicNote {
     static G = new BasicNote("G");
     static A = new BasicNote("A");
     static B = new BasicNote("B");
-    static ALL : BasicNote[] = [BasicNote.C, BasicNote.D, BasicNote.E, BasicNote.F, BasicNote.G, BasicNote.A, BasicNote.B];
+    
+    static CSharp = new BasicNote("C#");
+    static DSharp = new BasicNote("D#");
+    static FSharp = new BasicNote("F#");
+    static GSharp = new BasicNote("G#");
+    static ASharp = new BasicNote("A#");
+    static BSharp = new BasicNote("B#");
+    
+    static ALL : BasicNote[] = [BasicNote.C, BasicNote.D, BasicNote.E, BasicNote.F, BasicNote.G, BasicNote.A, BasicNote.B,
+                                BasicNote.CSharp, BasicNote.DSharp, BasicNote.FSharp, BasicNote.GSharp, BasicNote.ASharp];
     
     static valueOf(noteWithOctave:string) {
       var strNote : string = BasicNote.getNote(noteWithOctave);
@@ -106,12 +123,25 @@ export class Note {
 export class ClaveSol extends Note {
   //TODO: considerar a configuração do Dó central
   //TODO: criar as notas com #
+  //TODO: ainda não há A e B (verificar como isso se relacionará com o level do game)
   static C = new Note("C4", NoteHtml.Clave.Sol.C);
   static D = new Note("D4", NoteHtml.Clave.Sol.D); 
   static E = new Note("E4", NoteHtml.Clave.Sol.E);
   static F = new Note("F4", NoteHtml.Clave.Sol.F);
   static G = new Note("G4", NoteHtml.Clave.Sol.G);
-  static ALL : ClaveSol[]  = [ClaveSol.C, ClaveSol.D, ClaveSol.E, ClaveSol.F, ClaveSol.G];
+  //TODO: faltando "A" e "B" - ver como vai compatibilizar com os níveis
+  
+  static CSharp = new Note("C4#", NoteHtml.Clave.Sol.CSharp);
+  static DSharp = new Note("D4#", NoteHtml.Clave.Sol.DSharp);
+  static FSharp = new Note("F4#", NoteHtml.Clave.Sol.FSharp);
+  static GSharp = new Note("G4#", NoteHtml.Clave.Sol.GSharp);
+  //TODO: faltando "A" - ver como vai compatibilizar com os níveis
+  
+  static ALL_BASIC_NOTES = [ClaveSol.C, ClaveSol.D, ClaveSol.E, ClaveSol.F, ClaveSol.G];
+  static ALL_BASIC_SEMI_NOTES = [ClaveSol.CSharp, ClaveSol.DSharp, ClaveSol.FSharp, ClaveSol.GSharp];
+  
+  static ALL : ClaveSol[]  = ClaveSol.ALL_BASIC_NOTES.concat(ClaveSol.ALL_BASIC_SEMI_NOTES);
+                              
   static get(noteWithOctave:string) {
     return Note.get(noteWithOctave, ClaveSol.ALL);      
   }
@@ -124,7 +154,16 @@ export class ClaveFa extends Note {
   static A = new Note("A3", NoteHtml.Clave.Fa.A);
   static G = new Note("G3", NoteHtml.Clave.Fa.G);
   static F = new Note("F3", NoteHtml.Clave.Fa.F);
-  static ALL : ClaveFa[]  = [ClaveFa.C, ClaveFa.B, ClaveFa.A, ClaveFa.G, ClaveFa.F];
+  
+  static BSharp = new Note("B3#", NoteHtml.Clave.Fa.BSharp); 
+  static ASharp = new Note("A3#", NoteHtml.Clave.Fa.ASharp);
+  static GSharp = new Note("G3#", NoteHtml.Clave.Fa.GSharp);
+  
+  static ALL_BASIC_NOTES = [ClaveFa.C, ClaveFa.B, ClaveFa.A, ClaveFa.G, ClaveFa.F];
+  static ALL_BASIC_SEMI_NOTES = [ClaveFa.BSharp, ClaveFa.ASharp, ClaveFa.GSharp];
+  
+  static ALL : ClaveFa[]  = ClaveFa.ALL_BASIC_NOTES.concat(ClaveFa.ALL_BASIC_SEMI_NOTES);;
+  
   static get(noteWithOctave:string) {
     return Note.get(noteWithOctave, ClaveFa.ALL);      
   }
@@ -149,10 +188,35 @@ export class Chord {
   static ALL:any[] = [Chord.C, Chord.D];
 }
 
+export class NoteLevel {
+  static RightHandLevel:NoteLevel = new NoteLevel("level1", true, false, false);
+  static LeftHandLevel:NoteLevel = new NoteLevel("level2", false, true, false);
+  static RightAndLeftHandLevel:NoteLevel = new NoteLevel("level3",true, true, false);
+  static RightAndLeftHandPlusSeminotesLevel:NoteLevel = new NoteLevel("level4", true, true, true);
+  static ALL:NoteLevel[] = [NoteLevel.RightHandLevel, 
+                            NoteLevel.LeftHandLevel, 
+                            NoteLevel.RightAndLeftHandLevel, 
+                            NoteLevel.RightAndLeftHandPlusSeminotesLevel];
+  
+  constructor(public id, public sol:boolean, public fa:boolean, public semiNote:boolean) {
+    
+  }
+  
+  static valueOf(levelRaw:String) {
+    for (var item of NoteLevel.ALL) {
+      if (item.id == levelRaw) {
+        return item;
+      }
+    }
+    throw new Error("Invalid levelRaw: " + levelRaw);  
+  }
+  
+}
+
 @Injectable()
 export class NoteService {
   
-  static ALL_SOL_FA:Note[] = ClaveSol.ALL.concat(ClaveFa.ALL);
+  //static ALL_SOL_FA:Note[] = ClaveSol.ALL.concat(ClaveFa.ALL);
   
   constructor() {}
   
