@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
+import java.nio.file.Paths;
 import java.util.concurrent.Future;
 
 import javax.swing.JDialog;
@@ -33,6 +34,7 @@ public class Application {
     static Rectangle2D.Double splashTextArea;       // area where we draw the text
     static Rectangle2D.Double splashProgressArea;   // area where we draw the progress bar
     static Font font;                               // used to draw our text
+    static boolean showProgressArea = false;
     
     public static void main(String[] args) throws JPortMidiException, InterruptedException, IOException {
     	splashInit();           // initialize splash overlay drawing parameters
@@ -52,21 +54,7 @@ public class Application {
     private static void appInit(String[] args) throws InterruptedException, IOException {
     	checkEnveriment();
     	ConfigurableApplicationContext context = new SpringApplicationBuilder(Application.class).headless(false).run(args);
-    	IonicServerService ionicServerService = context.getBean(IonicServerService.class);
-    	try {
-			Future<IonicServerResult> result = ionicServerService.startIonicServer();
-			while (!result.isDone()) {
-				Thread.sleep(1000);
-			}
-			int i = 0;
-			i++;
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}    	
+    	//startIonicServer(context);
         AppPrincipalFrame appFrame = context.getBean(AppPrincipalFrame.class);
         appFrame.startUp();
     	/*for (int i = 1; i <= 10; i++)
@@ -83,6 +71,24 @@ public class Application {
                 break;
             }
         }*/
+    }
+    
+    private static void startIonicServer(ConfigurableApplicationContext context) {
+    	IonicServerService ionicServerService = context.getBean(IonicServerService.class);
+    	try {
+			Future<IonicServerResult> result = ionicServerService.startIonicServer();
+			while (!result.isDone()) {
+				Thread.sleep(1000);
+			}
+			int i = 0;
+			i++;
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
 
     /**
@@ -145,12 +151,13 @@ public class Application {
      */
     public static void splashProgress(int pct)
     {
-        if (mySplash != null && mySplash.isVisible())
+        if (mySplash != null && mySplash.isVisible() && showProgressArea)
         {
 
             // Note: 3 colors are used here to demonstrate steps
             // erase the old one
             splashGraphics.setPaint(Color.LIGHT_GRAY);
+            
             splashGraphics.fill(splashProgressArea);
 
             // draw an outline
@@ -162,6 +169,7 @@ public class Application {
             int y = (int) splashProgressArea.getMinY();
             int wid = (int) splashProgressArea.getWidth();
             int hgt = (int) splashProgressArea.getHeight();
+            
 
             int doneWidth = Math.round(pct*wid/100.f);
             doneWidth = Math.max(0, Math.min(doneWidth, wid-1));  // limit 0-width
@@ -179,8 +187,8 @@ public class Application {
     
     private static void checkEnveriment() {
     	checkJava32bits();
-    	configPort("server.port", 8080);
-    	configPort("client.port", 9090);
+    	configPort("server.port", 4444);
+    	configPort("client.port", 55555);
     	//configPort("managent.port", 20000);
     }
     
@@ -202,7 +210,7 @@ public class Application {
      * Caso port esteja em uso, uma nova porta acima de port é utilizada.
      */
     private static void configPort(String systemProperties, int port) {
-    	String newPort = System.getProperties().getProperty("server.port");
+    	String newPort = System.getProperties().getProperty(systemProperties);
     	if (newPort == null) {
     		newPort = String.valueOf(port - 1);
     	}
@@ -212,11 +220,11 @@ public class Application {
     		found = availablePort(Integer.valueOf(newPort));
     	} while(!found);
     	
-    	System.getProperties().put( "server.port", newPort );
+    	System.getProperties().put(systemProperties, newPort );
     }
     
     public static boolean availablePort(int port) {
-        if (port < 8080 || port > 35000) {
+        if (port < 10 || port > 65535) {
             throw new IllegalArgumentException("Invalid start port: " + port);
         }
 

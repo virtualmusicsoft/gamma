@@ -104,7 +104,7 @@
 							<!-- TODO: criar ícone -->
 							<!-- <icon>application.ico</icon> -->
 							<jre>
-								<path>.\jre1.8.0_45_32bits\</path>
+								<path>.\tools\jre\</path>
 								<minVersion>1.8.0</minVersion>
 								<jdkPreference>preferJre</jdkPreference>
 							</jre>
