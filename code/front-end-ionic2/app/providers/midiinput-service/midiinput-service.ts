@@ -16,8 +16,8 @@ export interface ConnectionListerner {
 @Injectable()
 export class MidiInputService {
   
-  public host = "localhost:8080";
-  public status = "Disconnected";
+  public host:String = "localhost:8080";
+  public status:String = "Disconnected";
   public count:number = -1;
   
   private client:SockJSClass;

@@ -25,7 +25,7 @@ public class CustomWebMvcAutoConfig extends
   
   @Override
   public void addViewControllers(ViewControllerRegistry registry) {
-      registry.addViewController("/").setViewName("redirect:/index.html");
+      registry.addViewController("/").setViewName("redirect:/index.html?h=1");
   }
 
 }
