@@ -1,4 +1,4 @@
-package hello;
+package com.github.gmnt.app.service;
 
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedOperation;

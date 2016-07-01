@@ -1,4 +1,4 @@
-package hello;
+package com.github.gmnt.app.service;
 
 import java.io.BufferedReader;
 import java.io.File;

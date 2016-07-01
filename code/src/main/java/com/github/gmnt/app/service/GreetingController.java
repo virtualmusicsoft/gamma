@@ -1,4 +1,4 @@
-package hello;
+package com.github.gmnt.app.service;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;

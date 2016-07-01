@@ -1,4 +1,4 @@
-package com.github.gmnt.launcher;
+package com.github.gmnt.app.launcher;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;

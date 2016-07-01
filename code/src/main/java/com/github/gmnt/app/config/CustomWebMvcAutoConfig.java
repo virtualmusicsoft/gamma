@@ -1,4 +1,6 @@
-package hello;
+package com.github.gmnt.app.config;
+
+import java.nio.file.Paths;
 
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfiguration;
@@ -12,20 +14,19 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 @AutoConfigureAfter(DispatcherServletAutoConfiguration.class)
 @EnableWebMvc
 public class CustomWebMvcAutoConfig extends
-                    WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter {
+WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter {
 
-  @Override
-  public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    String myExternalFilePath = "file:///C:/Users/bytecode/git/Gama-Music-Notation-Training/code/front-end-ionic2/www/";
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		//TODO: checar na inicialização
+		String frontEndDir = Paths.get("front-end-ionic2", "www").toAbsolutePath().normalize().toUri().toString();
+		registry.addResourceHandler("/**").addResourceLocations(frontEndDir);
+		super.addResourceHandlers(registry);
+	}
 
-    registry.addResourceHandler("/**").addResourceLocations(myExternalFilePath);
-
-    super.addResourceHandlers(registry);
-  }
-  
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-      registry.addViewController("/").setViewName("redirect:/index.html?h=1");
-  }
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("redirect:/index.html?h=1");
+	}
 
 }

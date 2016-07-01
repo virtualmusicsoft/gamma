@@ -1,4 +1,4 @@
-package hello;
+package com.github.gmnt.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,24 +9,28 @@ import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
-import java.nio.file.Paths;
 import java.util.concurrent.Future;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-import hello.IonicServerService.IonicServerResult;
+import com.github.gmnt.app.service.BrowserService;
+import com.github.gmnt.app.service.IonicServerService;
+import com.github.gmnt.app.service.IonicServerService.IonicServerResult;
+
 import jportmidi.JPortMidiException;
 
 @SpringBootApplication
 @EnableAsync
+@EnableAutoConfiguration
+@ComponentScan
 public class Application {
 	
     public static SplashScreen mySplash;                   // instantiated by JVM we use it to get graphics
@@ -53,24 +57,15 @@ public class Application {
      */
     private static void appInit(String[] args) throws InterruptedException, IOException {
     	checkEnveriment();
+    	startBrowser();
     	ConfigurableApplicationContext context = new SpringApplicationBuilder(Application.class).headless(false).run(args);
     	//startIonicServer(context);
         AppPrincipalFrame appFrame = context.getBean(AppPrincipalFrame.class);
         appFrame.startUp();
-    	/*for (int i = 1; i <= 10; i++)
-        {   // pretend we have 10 things to do
-            int pctDone = i * 10;       // this is about the only time I could calculate rather than guess progress
-            splashText("Doing task #" + i);     // tell the user what initialization task is being done
-            splashProgress(pctDone);            // give them an idea how much we have completed
-            try
-            {
-                Thread.sleep(1000);             // wait a second
-            }
-            catch (InterruptedException ex)
-            {
-                break;
-            }
-        }*/
+    }
+    
+    private static void startBrowser() {
+    	(new Thread(BrowserService.getInstance())).start();
     }
     
     private static void startIonicServer(ConfigurableApplicationContext context) {
@@ -119,7 +114,7 @@ public class Application {
             splashGraphics.setFont(font);
 
             // initialize the status info
-            splashText("Carregado...");
+            splashText("Carregando...");
             splashProgress(0);
         }
     }

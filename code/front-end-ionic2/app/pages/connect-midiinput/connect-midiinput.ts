@@ -14,7 +14,7 @@ export class ConnectMidiInputPage implements ConnectionListerner {
               public midiInput: MidiInputService,
               private router:Router) {
       midiInput.setConnectionListerner(this);
-      midiInput.host = window.location.host + "p2"; 
+      midiInput.host = window.location.host; 
   }
   
   startConnection() {

@@ -5,21 +5,14 @@
 </ion-navbar>
 
 <ion-content class="game">
-  <ion-list inset>
-    <ion-item>
-      <ion-label>Status</ion-label>
-      <ion-label>{{midiInput.status}} {{timeTotal}} {{timeRemaining}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label>Pontuação: {{score}}</ion-label>
-    </ion-item>
-  </ion-list>
   
-  <div padding>
+  <div>
+    Tempo: <progress max="{{timeTotal}}" value="{{timeRemaining}}"></progress> / Pontuação: {{score}}
     <button block (click)="start()">START</button>
   </div>
   
-  <progress max="{{timeTotal}}" value="{{timeRemaining}}"> </progress>
+  
+  
   <div style="position:relative">
     <img src="img/clave_sol_fa.png"/>
     <img *ngFor="let note of gameNotes" 

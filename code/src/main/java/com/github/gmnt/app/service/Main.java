@@ -3,7 +3,7 @@
  * You may modify and use it as you wish.
  * Just don't complain to me if you have trouble.
  */
-package hello;
+package com.github.gmnt.app.service;
 
 import java.awt.Color;
 import java.awt.Dimension;

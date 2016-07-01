@@ -7,26 +7,33 @@
 	<fileSets>
 		<fileSet>
 			<directory>${basedir}</directory>
-			<outputDirectory>gamma/lib</outputDirectory>
+			<outputDirectory>gamma-${project.version}/lib</outputDirectory>
 			<includes>
 				<include>pmjni.dll</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>${basedir}/tools</directory>
-			<outputDirectory>/gamma/tools</outputDirectory>
+			<outputDirectory>/gamma-${project.version}/tools</outputDirectory>
 			<includes>
 				<include>**/*</include>
 			</includes>
 		</fileSet>
 		<fileSet>
 			<directory>target</directory>
-			<outputDirectory>/gamma</outputDirectory>
+			<outputDirectory>/gamma-${project.version}</outputDirectory>
 			<includes>
 				<include>${project.name}-${project.version}.jar</include>
 				<include>gamma.exe</include>
 				<include>Splash.png</include>
 				<include>gamma.l4j.ini</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>front-end-ionic2/www</directory>
+			<outputDirectory>/gamma-${project.version}/front-end-ionic2/www</outputDirectory>
+			<includes>
+				<include>**/*</include>
 			</includes>
 		</fileSet>
 	</fileSets>

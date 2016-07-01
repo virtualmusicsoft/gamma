@@ -1,4 +1,4 @@
-package hello;
+package com.github.gmnt.app.service;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +17,8 @@ import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import com.github.danielmenezes.note.Note;
+import com.github.gmnt.app.service.MidiInputService.MidiInputDevice;
 
-import hello.MidiInputService.MidiInputDevice;
 import jportmidi.JPortMidi;
 import jportmidi.JPortMidiException;
 

@@ -15,9 +15,17 @@
 
 	<properties>
 		<!-- The main class to start by executing java -jar -->
-		<start-class>hello.Application</start-class>
+		<start-class>com.github.gmnt.app.Application</start-class>
 		<java.version>1.8</java.version>
 	</properties>
+	
+	<repositories>
+	    <repository>
+	        <id>project.local</id>
+	        <name>project</name>
+	        <url>file:${project.basedir}/repo</url>
+	    </repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
@@ -28,17 +36,30 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-messaging</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.miglayout</groupId>
+			<artifactId>miglayout-swing</artifactId>
+			<version>5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.teamdev</groupId>
+			<artifactId>jxbrowser</artifactId>
+			<version>6.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.teamdev</groupId>
+			<artifactId>jxbrowser-win</artifactId>
+			<version>6.5</version>
+		</dependency>
+		<dependency>
+			<groupId>com.teamdev</groupId>
+			<artifactId>license</artifactId>
+			<version>6.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-jar-plugin</artifactId> -->
-			<!-- <configuration> -->
-			<!-- <finalName>${project.artifactId}</finalName> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -79,7 +100,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- launch4j -->
 			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -98,11 +119,8 @@
 							<jar>${project.artifactId}-${project.version}.jar</jar>
 							<outfile>${project.build.directory}/gamma.exe</outfile>
 							<downloadUrl>http://java.com/download</downloadUrl>
-<!-- 							<cmdLine>.\jre1.8.0_45_32bits\bin\java.exe -splash:Splash.png -jar ${project.artifactId}-${project-version}.jar</cmdLine> -->
-							<!--<classPath> <mainClass>hello.Application</mainClass> <preCp>anything</preCp> 
-								</classPath> -->
-							<!-- TODO: criar ícone -->
-							<!-- <icon>application.ico</icon> -->
+							<icon>${project.basedir}/src/main/resources/icon.ico</icon>
+<!-- 							<classPath>./tools/libjar/*</classPath> -->
 							<jre>
 								<path>.\tools\jre\</path>
 								<minVersion>1.8.0</minVersion>
@@ -124,7 +142,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 			<!-- zip -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

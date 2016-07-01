@@ -7,7 +7,7 @@ import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
 
-import hello.Greeting;
+import com.github.gmnt.app.service.Greeting;
 
 public class MySessionHandler extends StompSessionHandlerAdapter {
 	

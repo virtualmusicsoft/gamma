@@ -1,6 +1,6 @@
-package com.github.gmnt.launcher;
+package com.github.gmnt.app.launcher;
 
-import hello.Application;
+import com.github.gmnt.app.Application;
 
 public class SpyLauncher {
 	
